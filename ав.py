@@ -7,33 +7,7 @@ import time
 
 WIDTH = 1920
 HEIGHT = 1080
-class Main_hero:
-    def __init__(self):
-        self.pos = [WIDTH // 2, HEIGHT // 2]
-        self.speed = 1
-        self.size = 25
-        self.color = (100,0,180)
 
-    def live(self,keys):
-        if keys[pygame.K_w]:
-            self.pos[1] -= 10
-        if keys[pygame.K_a]:
-            self.pos[0] -= 10 
-        if keys[pygame.K_s]:
-            self.pos[1] += 10  
-        if keys[pygame.K_d]:
-            self.pos[0] += 10
-    
-    
-    def draw(self):
-         pygame.draw.circle(screen,self.color,[WIDTH//2,HEIGHT//2],self.size)   
-    
-    def check_colide(self, other):
-        distance = math.sqrt((self.pos[0]- other.pos[0])**2 + (self.pos[1]- other.pos[1])**2)
-        if distance < self.size-2:
-            self.size += 2
-            return False
-        return True
         
 
 class Food:
