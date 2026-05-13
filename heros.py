@@ -38,13 +38,13 @@ class Main_hero(Entity):
         self.screen = screen
 
     def live(self,keys):
-        if keys[pygame.K_w]:
+        if keys[pygame.K_w] and self.pos[1] > WIDTH // 2 - 2000:
             self.pos[1] -= 10
-        if keys[pygame.K_a]:
+        if keys[pygame.K_a] and self.pos[0] > WIDTH // 2 - 2000:
             self.pos[0] -= 10 
-        if keys[pygame.K_s]:
+        if keys[pygame.K_s] and self.pos[1] < WIDTH // 2 + 2000:
             self.pos[1] += 10  
-        if keys[pygame.K_d]:
+        if keys[pygame.K_d] and self.pos[0] < WIDTH // 2 + 2000:
             self.pos[0] += 10
     
     
@@ -58,7 +58,7 @@ class Main_hero(Entity):
 
 class Food:
     def __init__(self, screen):
-        self.pos = [random.randint(-WIDTH, WIDTH), random.randint(-HEIGHT,HEIGHT)]
+        self.pos = [random.randint(WIDTH // 2 - 2000, WIDTH // 2 + 2000), random.randint(WIDTH // 2 - 2000,WIDTH // 2 + 2000)]
         self.size = 10
         self.color = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
         self.screen = screen
@@ -73,23 +73,22 @@ class Food:
 
 class Vorog(Entity):
     def __init__(self, screen):
-        self.pos = [random.randint(-WIDTH//2, WIDTH//2), random.randint(-HEIGHT//2,HEIGHT//2)]
+        self.pos = [random.randint(WIDTH // 2 - 2000, WIDTH // 2 + 2000), random.randint(WIDTH // 2 - 2000,WIDTH // 2 + 2000)]
         self.speed = 1
         self.size = 25
         self.color = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
         self.screen = screen
+        self.timer = 0
+        self.move =  (random.randint(-1,1), random.randint(-1,1))
 
-    def live(self,key):
+    def live(self):
         
-        if key == "w":
-            self.pos[1] -= 10
-        if key == "a":
-            self.pos[0] -= 10 
-        if key == "s":
-            self.pos[1] += 10  
-        if key == "d":
-            self.pos[0] += 10
-    
+        dy,dx = self.move
+       
+            
+        self.pos[0] +=dy*5
+        self.pos[1] += dx*5
+
     
     def draw(self, main):
         

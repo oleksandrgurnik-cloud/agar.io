@@ -2,6 +2,7 @@ import random
 import pygame 
 import time
 import random
+import math
 from heros import Main_hero, Food, Vorog,WIDTH,HEIGHT
 
 pygame.init()
@@ -36,7 +37,18 @@ while running:
     
     main_hero.draw()
     for enemy in enemy_lst:
-        enemy.live(random.choice(["w",'a','s','d']))
+        enemy.timer +=1 
+        if enemy.timer > random.randint(120,600):
+            closest = float('inf')
+            for food in food_lst:
+                distance = math.sqrt((enemy.pos[0]- food.pos[0])**2 + (enemy.pos[1]- food.pos[1])**2)
+                if distance < closest:
+                    vector = [(enemy.pos[0]- food.pos[0])/distance, (enemy.pos[1]- food.pos[1])/distance]
+                    closest = distance
+
+            enemy.move = vector
+            enemy.timer = 0
+        enemy.live()
         enemy.draw(main_hero)
 
     new_food_lst = []
