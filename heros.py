@@ -11,15 +11,19 @@ class Entity:
         distance = math.sqrt((self.pos[0]- other.pos[0])**2 + (self.pos[1]- other.pos[1])**2)
         if distance < self.size-2:
             if isinstance(other, Food):
+                if self.size <200:
 
-                self.size += 2
+                    self.size += 2
                 return False
             if isinstance(other, Vorog):
                 if self.size > other.size:
-                    self.size += other.size
+                    if self.size < 200:
+                       self.size += other.size
                     return 'ми зїли'
                 elif self.size <other.size:
-                    other.size += self.size
+                    if other.size < 200:
+
+                       other.size += self.size
                     return 'нас зїли'
                 else:
                     return 'не доторкаємося'
