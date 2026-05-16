@@ -5,6 +5,14 @@ import math
 import random
 
 
+class Zoom:
+    def __init__(self):
+        self.zoom = 1 
+    def update_zoom(self,main):
+        self.zoom = 100 / main.size
+
+
+
 class Entity:
 
     def check_colide(self, other):
@@ -18,24 +26,26 @@ class Entity:
             if isinstance(other, Vorog):
                 if self.size > other.size:
                     if self.size < 200:
-                       self.size += other.size
+                       self.size += other.size // 10
                     return 'ми зїли'
                 elif self.size <other.size:
                     if other.size < 200:
 
-                       other.size += self.size
+                       other.size += self.size // 10
                     return 'нас зїли'
                 else:
                     return 'не доторкаємося'
         return True
 
 class Main_hero(Entity):
-    def __init__(self, screen):
+    def __init__(self, screen,zoom):
         self.pos = [WIDTH // 2, HEIGHT // 2]
         self.speed = 1
         self.size = 25
         self.color = (100,0,180)
         self.screen = screen
+        self.zoom = zoom
+
 
     def live(self,keys):
         if keys[pygame.K_w] and self.pos[1] > WIDTH // 2 - 2000:
@@ -49,7 +59,7 @@ class Main_hero(Entity):
     
     
     def draw(self):
-         pygame.draw.circle(self.screen,self.color,[WIDTH//2,HEIGHT//2],min(self.size,500))   
+         pygame.draw.circle(self.screen,self.color,[WIDTH//2,HEIGHT//2],min(self.size,500)*self.zoom.zoom)   
     
     
     
@@ -72,14 +82,16 @@ class Food:
 
 
 class Vorog(Entity):
-    def __init__(self, screen):
+    def __init__(self, screen,zoom):
         self.pos = [random.randint(WIDTH // 2 - 2000, WIDTH // 2 + 2000), random.randint(WIDTH // 2 - 2000,WIDTH // 2 + 2000)]
         self.speed = 1
-        self.size = 25
+        self.size = 75
         self.color = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
         self.screen = screen
         self.timer = 0
         self.move =  (random.randint(-1,1), random.randint(-1,1))
+        self.zoom = zoom
+
 
     def live(self):
         
@@ -95,8 +107,6 @@ class Vorog(Entity):
         screen_x = self.pos[0] - main.pos[0] + WIDTH // 2
         screen_y = self.pos[1] - main.pos[1] + HEIGHT // 2
         
-        pygame.draw.circle(self.screen, self.color, [int(screen_x), int(screen_y)], self.size)
+        pygame.draw.circle(self.screen, self.color, [int(screen_x), int(screen_y)], self.size / self.zoom.zoom)
 
 
-
-    

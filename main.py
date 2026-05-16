@@ -3,19 +3,21 @@ import pygame
 import time
 import random
 import math
-from heros import Main_hero, Food, Vorog,WIDTH,HEIGHT
+from heros import Main_hero, Food, Vorog,WIDTH,HEIGHT,Zoom
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
+zoom = Zoom()
 running = True 
-main_hero = Main_hero(screen)
+main_hero = Main_hero(screen,zoom)
 select = 1 
 bgr_color = (250,250,250) 
 food_lst = [Food(screen) for i in range(500)]
-enemy_lst = [Vorog(screen) for a in range(20)]
+enemy_lst = [Vorog(screen,zoom) for a in range(20)]
 start = time.time()
 
 while running:
+    zoom.update_zoom(main_hero)
     pygame.time.Clock().tick(60)
     for i in pygame.event.get():
         if i.type == pygame.QUIT:
@@ -66,7 +68,15 @@ while running:
                 
     for enemy in enemy_lst:
         if main_hero.check_colide(enemy) is True:
-            new_enemy_lst.append(enemy)
+            alive = True
+            for enemy2 in enemy_lst:
+                if enemy != enemy2 and enemy.check_colide(enemy2) == "нас зїли":
+                    alive = False
+                    break
+
+            if alive:
+
+                new_enemy_lst.append(enemy)
         elif main_hero.check_colide(enemy) == 'нас зїли':
             running = False
 
